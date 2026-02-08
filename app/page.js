@@ -91,7 +91,8 @@ export default function Page() {
       });
 
       if (!res.ok) {
-        throw new Error('API response was not ok');
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || 'API response was not ok (status ' + res.status + ')');
       }
 
       const data = await res.json();
@@ -117,12 +118,18 @@ export default function Page() {
       }
     } catch (error) {
       console.error('Error:', error);
+      // Try to get a useful error message from the API response
+      let errorMsg = 'Sorry, something went wrong. Please try again.';
+      try {
+        if (error.message && error.message !== 'API response was not ok') {
+          errorMsg = 'Sorry, there was an issue: ' + error.message;
+        }
+      } catch (e) { /* use default */ }
       setMessages((prev) => [
         ...prev,
         {
           role: 'assistant',
-          content:
-            'Sorry, something went wrong. Please try again.',
+          content: errorMsg,
         },
       ]);
     }
