@@ -53,7 +53,7 @@ export default function Page() {
       const initialMessage = {
         role: 'assistant',
         content:
-          "Hi! I\u2019m Scale Builder by Promptletariat.com \u2014 I help you discover validated psychology scales and turn them into beautiful, interactive assessment apps.\n\nThis takes about 5 minutes. I\u2019ll ask you 4\u20135 quick questions about the topic you\u2019d like to assess, what you\u2019d like to name your app, and your visual style preferences. Then I\u2019ll build your custom assessment.\n\nWhat kind of assessment are you thinking about?",
+          "Hi! I\u2019m Scale Builder by Promptletariat.com \u2014 I help you discover validated psychology scales and turn them into beautiful, interactive assessment apps.\n\nThis takes between 30 seconds and 2 minutes. I\u2019ll ask you 4\u20135 quick questions about the topic you\u2019d like to assess, what you\u2019d like to name your app, and your visual style preferences. Then I\u2019ll build your custom assessment.\n\nWhat kind of assessment are you thinking about?",
       };
       setMessages([initialMessage]);
       setFirstMessageSent(true);
@@ -175,7 +175,7 @@ export default function Page() {
       {
         role: 'assistant',
         content:
-          "Hi! I\u2019m Scale Builder by Promptletariat.com \u2014 I help you discover validated psychology scales and turn them into beautiful, interactive assessment apps.\n\nThis takes about 5 minutes. I\u2019ll ask you 4\u20135 quick questions about the topic you\u2019d like to assess, what you\u2019d like to name your app, and your visual style preferences. Then I\u2019ll build your custom assessment.\n\nWhat kind of assessment are you thinking about?",
+          "Hi! I\u2019m Scale Builder by Promptletariat.com \u2014 I help you discover validated psychology scales and turn them into beautiful, interactive assessment apps.\n\nThis takes between 30 seconds and 2 minutes. I\u2019ll ask you 4\u20135 quick questions about the topic you\u2019d like to assess, what you\u2019d like to name your app, and your visual style preferences. Then I\u2019ll build your custom assessment.\n\nWhat kind of assessment are you thinking about?",
       },
     ]);
     setArtifact(null);
@@ -234,7 +234,7 @@ export default function Page() {
 
             {/* How It Works */}
             <div className="glass-card p-8 max-w-2xl mx-auto mb-12">
-              <p className="font-space text-lg font-semibold mb-3 text-white">This takes about 5 minutes.</p>
+              <p className="font-space text-lg font-semibold mb-3 text-white">This takes between 30 seconds and 2 minutes.</p>
               <p className="text-base text-gray-400 leading-relaxed">
                 Scale Builder will ask you 4–5 quick questions about the topic you'd like to assess, what you want to name your app, and your visual style preferences. Then it builds your custom assessment app.
               </p>
