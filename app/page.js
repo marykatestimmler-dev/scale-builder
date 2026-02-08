@@ -230,7 +230,7 @@ export default function Page() {
             </p>
 
             {/* Badge */}
-            <div className="badge-pill mb-8">82 Validated Scales</div>
+            <div className="badge-pill mb-8">87 Validated Scales</div>
 
             {/* How It Works */}
             <div className="glass-card p-8 max-w-2xl mx-auto mb-12">
