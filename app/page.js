@@ -215,36 +215,10 @@ export default function Page() {
               </p>
             </div>
 
-            {/* Feature Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
-              {[
-                { title: 'Discover Scales', desc: '82 validated scales', icon: '\uD83D\uDD0D' },
-                { title: 'Customize Design', desc: 'Colors, names, and style', icon: '\uD83C\uDFA8' },
-                { title: 'Get Your App', desc: 'Interactive assessment tool', icon: '\uD83D\uDCF1' },
-              ].map((feature, idx) => (
-                <div key={idx} className="feature-card text-center">
-                  <div className="text-4xl mb-3">{feature.icon}</div>
-                  <h3 className="font-space text-lg font-semibold mb-2 text-white">
-                    {feature.title}
-                  </h3>
-                  <p className="text-sm text-gray-500">{feature.desc}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Features row */}
-            <div className="flex justify-center gap-6 flex-wrap mb-10">
-              {['No login', '100% private', 'Mobile ready'].map((f, i) => (
-                <span key={i} className="font-space text-sm text-gray-500 flex items-center gap-2">
-                  <span className="text-cyan-accent text-xs">{'\u25CF'}</span> {f}
-                </span>
-              ))}
-            </div>
-
             {/* CTA Button */}
             <button
               onClick={() => setScreen('chat')}
-              className="btn-primary text-lg shadow-lg hover:shadow-2xl"
+              className="btn-primary text-xl sm:text-2xl px-12 py-5 shadow-lg hover:shadow-2xl font-syne tracking-tight"
             >
               Start Building →
             </button>
