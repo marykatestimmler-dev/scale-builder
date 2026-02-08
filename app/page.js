@@ -200,7 +200,7 @@ export default function Page() {
               Build validated psychology assessments with AI
             </p>
             <p className="text-base sm:text-lg mb-12 max-w-3xl mx-auto leading-relaxed opacity-85">
-              Discover from 24+ validated psychology scales and generate custom assessment tools tailored to your needs. Turn insights into interactive apps in minutes.
+              Discover from 82 validated psychology scales and generate custom assessment tools tailored to your needs. Turn insights into interactive apps in minutes.
             </p>
 
             {/* How It Works */}
@@ -216,7 +216,7 @@ export default function Page() {
               {[
                 {
                   title: 'Discover Scales',
-                  desc: '24+ validated scales',
+                  desc: '82 validated scales',
                   icon: '🔍',
                 },
                 {
