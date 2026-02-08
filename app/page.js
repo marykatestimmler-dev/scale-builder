@@ -258,7 +258,9 @@ export default function Page() {
         {/* Footer */}
         <div className="bg-gray-900 text-gray-300 py-8 px-6 text-center">
           <p className="text-sm">
-            Created by <span className="font-semibold text-white">MK</span> |{' '}
+            Brought to you by{' '}
+            <a href="https://promptletariat.com" className="text-teal-400 hover:text-teal-300 font-semibold">the Promptletariat.com</a>
+            {' '}| Created by <span className="font-semibold text-white">MK</span> |{' '}
             <span className="text-gray-400">
               Stanford Fellow in Organizational Behavior
             </span>{' '}
@@ -378,7 +380,7 @@ export default function Page() {
               </button>
             </div>
             <p className="text-xs text-gray-500 mt-3 ml-1">
-              Press Enter to send • Built with Scale Builder by Promptletariat
+              Press Enter to send • Brought to you by the Promptletariat.com
             </p>
           </div>
         </div>
@@ -389,7 +391,7 @@ export default function Page() {
         <div className="fixed inset-0 bg-white z-50 flex flex-col">
           {/* Full-screen Header */}
           <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between bg-gradient-to-r from-teal-50 to-white shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900">Your Assessment</h2>
+            <h2 className="text-lg font-bold text-gray-900">Your Assessment <span className="text-sm font-normal text-gray-500">• Brought to you by the Promptletariat.com</span></h2>
             <div className="flex gap-3 items-center">
               <button
                 onClick={downloadArtifact}
