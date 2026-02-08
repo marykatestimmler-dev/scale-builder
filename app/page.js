@@ -35,11 +35,10 @@ export default function Page() {
     return () => clearTimeout(timer);
   }, [isLoading]);
 
-  // Estimate which step we're on and how long it takes
   const getLoadingEstimate = () => {
     if (messageCount <= 1) return 'Finding the best scales for you... usually ~10 seconds, but can take longer depending on your request';
     if (messageCount <= 3) return 'Noting your preferences... usually ~10 seconds, but can take longer depending on your request';
-    return 'Building your custom assessment... this is the big one! Usually ~30–60 seconds, but can take longer depending on your style preferences';
+    return 'Building your custom assessment... this is the big one! Usually ~30\u201360 seconds, but can take longer depending on your style preferences';
   };
 
   const getStepLabel = () => {
@@ -54,7 +53,7 @@ export default function Page() {
       const initialMessage = {
         role: 'assistant',
         content:
-          "Hi! I'm Scale Builder by Promptletariat.com — I help you discover validated psychology scales and turn them into beautiful, interactive assessment apps.\n\nThis takes about 5 minutes. I'll ask you 4–5 quick questions about the topic you'd like to assess, what you'd like to name your app, and your visual style preferences. Then I'll build your custom assessment.\n\nWhat kind of assessment are you thinking about?",
+          "Hi! I\u2019m Scale Builder by Promptletariat.com \u2014 I help you discover validated psychology scales and turn them into beautiful, interactive assessment apps.\n\nThis takes about 5 minutes. I\u2019ll ask you 4\u20135 quick questions about the topic you\u2019d like to assess, what you\u2019d like to name your app, and your visual style preferences. Then I\u2019ll build your custom assessment.\n\nWhat kind of assessment are you thinking about?",
       };
       setMessages([initialMessage]);
       setFirstMessageSent(true);
@@ -99,11 +98,7 @@ export default function Page() {
 
       if (data.content) {
         const assistantContent = data.content;
-
-        // Check for HTML artifact and extract it
         const htmlMatch = assistantContent.match(/```html\n([\s\S]*?)```/);
-
-        // Strip code blocks from the displayed message so users never see raw code
         const cleanContent = assistantContent.replace(/```html\n[\s\S]*?```/g, '').trim();
 
         setMessages((prev) => [
@@ -118,7 +113,6 @@ export default function Page() {
       }
     } catch (error) {
       console.error('Error:', error);
-      // Try to get a useful error message from the API response
       let errorMsg = 'Sorry, something went wrong. Please try again.';
       try {
         if (error.message && error.message !== 'API response was not ok') {
@@ -127,10 +121,7 @@ export default function Page() {
       } catch (e) { /* use default */ }
       setMessages((prev) => [
         ...prev,
-        {
-          role: 'assistant',
-          content: errorMsg,
-        },
+        { role: 'assistant', content: errorMsg },
       ]);
     }
 
@@ -159,7 +150,7 @@ export default function Page() {
       {
         role: 'assistant',
         content:
-          "Hi! I'm Scale Builder by Promptletariat.com — I help you discover validated psychology scales and turn them into beautiful, interactive assessment apps.\n\nThis takes about 5 minutes. I'll ask you 4–5 quick questions about the topic you'd like to assess, what you'd like to name your app, and your visual style preferences. Then I'll build your custom assessment.\n\nWhat kind of assessment are you thinking about?",
+          "Hi! I\u2019m Scale Builder by Promptletariat.com \u2014 I help you discover validated psychology scales and turn them into beautiful, interactive assessment apps.\n\nThis takes about 5 minutes. I\u2019ll ask you 4\u20135 quick questions about the topic you\u2019d like to assess, what you\u2019d like to name your app, and your visual style preferences. Then I\u2019ll build your custom assessment.\n\nWhat kind of assessment are you thinking about?",
       },
     ]);
     setArtifact(null);
@@ -169,51 +160,53 @@ export default function Page() {
   };
 
   const renderMessageContent = (content) => {
-    // Parse and render markdown-like formatting
     const parts = content.split(/(\*\*[^*]+\*\*|\n\d+\.|#+\s)/);
-
     return parts.map((part, idx) => {
       if (part.startsWith('**') && part.endsWith('**')) {
-        return (
-          <strong key={idx} className="font-semibold">
-            {part.slice(2, -2)}
-          </strong>
-        );
+        return <strong key={idx} className="font-semibold">{part.slice(2, -2)}</strong>;
       }
-      if (part.match(/^\n\d+\./)) {
-        return null; // Handled by list styling
-      }
-      if (part.match(/^#+\s/)) {
-        return null; // Handled by heading styling
-      }
+      if (part.match(/^\n\d+\./)) return null;
+      if (part.match(/^#+\s/)) return null;
       return <span key={idx}>{part}</span>;
     });
   };
 
+  // =========================================
   // LANDING SCREEN
+  // =========================================
   if (screen === 'landing') {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex flex-col">
+      <div className="min-h-screen relative flex flex-col">
+        {/* Floating Orbs */}
+        <div className="orb orb-1"></div>
+        <div className="orb orb-2"></div>
+        <div className="orb orb-3"></div>
+        <div className="orb orb-4"></div>
+        <div className="orb orb-5"></div>
+
         {/* Hero Section */}
-        <div className="gradient-hero text-white py-20 px-6 sm:px-12 flex-1 flex items-center justify-center">
-          <div className="max-w-4xl mx-auto text-center relative z-10">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-2 tracking-tight">
+        <div className="flex-1 flex items-center justify-center px-6 sm:px-12 py-20 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="font-syne text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-2 tracking-tight gradient-text">
               Scale Builder
             </h1>
-            <p className="text-xl sm:text-2xl mb-6 font-medium opacity-95">
+            <p className="font-syne text-xl sm:text-2xl mb-6 font-medium gradient-text-subtle">
               by <a href="https://promptletariat.com" className="underline hover:opacity-80">Promptletariat.com</a>
             </p>
-            <p className="text-lg sm:text-xl mb-8 max-w-2xl mx-auto opacity-90">
+            <p className="font-space text-lg sm:text-xl mb-8 max-w-2xl mx-auto text-gray-400" style={{letterSpacing: '-0.3px'}}>
               Build validated psychology assessments with AI
             </p>
-            <p className="text-base sm:text-lg mb-12 max-w-3xl mx-auto leading-relaxed opacity-85">
+            <p className="text-base sm:text-lg mb-12 max-w-3xl mx-auto leading-relaxed text-gray-500">
               Discover from 82 validated psychology scales and generate custom assessment tools tailored to your needs. Turn insights into interactive apps in minutes.
             </p>
 
+            {/* Badge */}
+            <div className="badge-pill mb-8">82 Validated Scales</div>
+
             {/* How It Works */}
-            <div className="bg-white bg-opacity-15 backdrop-blur-sm border border-white border-opacity-25 rounded-2xl p-8 max-w-2xl mx-auto mb-12 mt-10">
-              <p className="text-lg font-semibold mb-3">This takes about 5 minutes.</p>
-              <p className="text-base opacity-90 leading-relaxed">
+            <div className="glass-card p-8 max-w-2xl mx-auto mb-12">
+              <p className="font-space text-lg font-semibold mb-3 text-white">This takes about 5 minutes.</p>
+              <p className="text-base text-gray-400 leading-relaxed">
                 Scale Builder will ask you 4–5 quick questions about the topic you'd like to assess, what you want to name your app, and your visual style preferences. Then it builds your custom assessment app.
               </p>
             </div>
@@ -221,34 +214,26 @@ export default function Page() {
             {/* Feature Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
               {[
-                {
-                  title: 'Discover Scales',
-                  desc: '82 validated scales',
-                  icon: '🔍',
-                },
-                {
-                  title: 'Customize Design',
-                  desc: 'Colors, names, and style',
-                  icon: '🎨',
-                },
-                {
-                  title: 'Get Your App',
-                  desc: 'Interactive assessment tool',
-                  icon: '📱',
-                },
+                { title: 'Discover Scales', desc: '82 validated scales', icon: '\uD83D\uDD0D' },
+                { title: 'Customize Design', desc: 'Colors, names, and style', icon: '\uD83C\uDFA8' },
+                { title: 'Get Your App', desc: 'Interactive assessment tool', icon: '\uD83D\uDCF1' },
               ].map((feature, idx) => (
-                <div
-                  key={idx}
-                  className="feature-card bg-white bg-opacity-20 backdrop-blur-sm border border-white border-opacity-30"
-                >
+                <div key={idx} className="feature-card text-center">
                   <div className="text-4xl mb-3">{feature.icon}</div>
-                  <h3 className="text-lg font-semibold mb-2 text-white">
+                  <h3 className="font-space text-lg font-semibold mb-2 text-white">
                     {feature.title}
                   </h3>
-                  <p className="text-sm text-white opacity-90">
-                    {feature.desc}
-                  </p>
+                  <p className="text-sm text-gray-500">{feature.desc}</p>
                 </div>
+              ))}
+            </div>
+
+            {/* Features row */}
+            <div className="flex justify-center gap-6 flex-wrap mb-10">
+              {['No login', '100% private', 'Mobile ready'].map((f, i) => (
+                <span key={i} className="font-space text-sm text-gray-500 flex items-center gap-2">
+                  <span className="text-cyan-accent text-xs">{'\u25CF'}</span> {f}
+                </span>
               ))}
             </div>
 
@@ -263,35 +248,39 @@ export default function Page() {
         </div>
 
         {/* Footer */}
-        <div className="bg-gray-900 text-gray-300 py-8 px-6 text-center">
-          <p className="text-sm">
+        <div className="relative z-10 py-8 px-6 text-center" style={{borderTop: '1px solid rgba(255,255,255,0.08)'}}>
+          <p className="font-space text-sm text-gray-500">
             Brought to you by{' '}
-            <a href="https://promptletariat.com" className="text-teal-400 hover:text-teal-300 font-semibold">Promptletariat.com</a>
+            <a href="https://promptletariat.com" className="text-hot-pink hover:text-cyan-accent font-semibold transition-colors">Promptletariat.com</a>
             {' '}| Created by <span className="font-semibold text-white">MK</span> |{' '}
-            <span className="text-gray-400">
-              Stanford Fellow in Organizational Behavior
-            </span>{' '}
-            | <a href="https://promptletariat.com" className="text-teal-400 hover:text-teal-300">Promptletariat.com</a>
+            <span className="text-gray-600">Stanford Fellow in Organizational Behavior</span>
           </p>
-          <p className="text-xs text-gray-500 mt-4 max-w-2xl mx-auto leading-relaxed">
-            Scale Builder by <a href="https://promptletariat.com" className="text-gray-400 hover:text-gray-300 underline">Promptletariat.com</a> is for fun and AI demonstration purposes only, not licensed for commercial use and not to be used for psychological evaluation. Consult your medical doctor for any real medical evaluation and medical or psychological advice.
+          <p className="text-xs text-gray-600 mt-4 max-w-2xl mx-auto leading-relaxed">
+            Scale Builder by <a href="https://promptletariat.com" className="text-gray-500 hover:text-gray-400 underline">Promptletariat.com</a> is for fun and AI demonstration purposes only, not licensed for commercial use and not to be used for psychological evaluation. Consult your medical doctor for any real medical evaluation and medical or psychological advice.
           </p>
         </div>
       </div>
     );
   }
 
+  // =========================================
   // CHAT SCREEN
+  // =========================================
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen relative">
+      {/* Floating Orbs (behind chat) */}
+      <div className="orb orb-1"></div>
+      <div className="orb orb-2"></div>
+      <div className="orb orb-3"></div>
+
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col relative z-10">
         {/* Header */}
-        <div className="bg-white border-b border-gray-200 px-6 py-4 shadow-sm">
+        <div className="px-6 py-4" style={{borderBottom: '1px solid rgba(255,255,255,0.08)', background: 'rgba(26,10,46,0.8)', backdropFilter: 'blur(12px)'}}>
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-2xl font-bold text-gray-900">Scale Builder</h1>
-            <p className="text-sm text-gray-600 mt-1">
-              by <a href="https://promptletariat.com" className="text-teal-600 hover:text-teal-700">Promptletariat.com</a> — Build validated psychology assessments with AI
+            <h1 className="font-syne text-2xl font-bold gradient-text">Scale Builder</h1>
+            <p className="font-space text-sm text-gray-500 mt-1">
+              by <a href="https://promptletariat.com" className="text-hot-pink hover:text-cyan-accent transition-colors">Promptletariat.com</a> — Build validated psychology assessments with AI
             </p>
           </div>
         </div>
@@ -301,15 +290,11 @@ export default function Page() {
           {messages.map((msg, idx) => (
             <div
               key={idx}
-              className={`mb-6 flex message-enter ${
-                msg.role === 'user' ? 'justify-end' : 'justify-start'
-              }`}
+              className={`mb-6 flex message-enter ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <div
-                className={msg.role === 'user' ? 'user-message' : 'assistant-message'}
-              >
+              <div className={msg.role === 'user' ? 'user-message' : 'assistant-message'}>
                 {msg.role === 'assistant' && (
-                  <div className="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">
+                  <div className="text-xs font-semibold mb-2 uppercase tracking-wide" style={{color: '#08d9d6'}}>
                     Scale Builder
                   </div>
                 )}
@@ -322,19 +307,19 @@ export default function Page() {
 
           {showPreview && artifact && (
             <div className="mb-6 flex justify-start">
-              <div className="bg-gradient-to-r from-teal-600 to-teal-700 rounded-2xl p-6 max-w-sm shadow-lg text-white">
-                <p className="text-lg font-bold mb-1">Your assessment is ready!</p>
+              <div className="rounded-2xl p-6 max-w-sm shadow-lg text-white" style={{background: 'linear-gradient(135deg, #ff2e63, #d4254f)'}}>
+                <p className="font-space text-lg font-bold mb-1">Your assessment is ready!</p>
                 <p className="text-sm opacity-90 mb-4">Try it out, then save it to share with others.</p>
                 <div className="flex flex-col gap-2">
                   <button
                     onClick={() => setFullScreen(true)}
-                    className="w-full px-4 py-3 bg-white text-teal-700 rounded-lg font-semibold hover:bg-gray-50 transition-all"
+                    className="w-full px-4 py-3 bg-white text-hot-pink rounded-lg font-semibold hover:bg-gray-100 transition-all font-space"
                   >
                     Try Your Assessment →
                   </button>
                   <button
                     onClick={startNewAssessment}
-                    className="w-full px-4 py-2 text-sm text-teal-100 hover:text-white transition-all"
+                    className="w-full px-4 py-2 text-sm text-pink-100 hover:text-white transition-all"
                   >
                     Build a different one
                   </button>
@@ -348,16 +333,16 @@ export default function Page() {
               <div className="assistant-message">
                 <div className="flex items-center space-x-3">
                   <div className="flex space-x-1">
-                    <span className="typing-indicator">●</span>
-                    <span className="typing-indicator" style={{ animationDelay: '0.2s' }}>●</span>
-                    <span className="typing-indicator" style={{ animationDelay: '0.4s' }}>●</span>
+                    <span className="typing-indicator" style={{color: '#ff2e63'}}>{'\u25CF'}</span>
+                    <span className="typing-indicator" style={{ animationDelay: '0.2s', color: '#08d9d6' }}>{'\u25CF'}</span>
+                    <span className="typing-indicator" style={{ animationDelay: '0.4s', color: '#c8ff00' }}>{'\u25CF'}</span>
                   </div>
                   {showLoadingMessage && (
-                    <span className="text-sm text-gray-500 ml-2">{getLoadingEstimate()}</span>
+                    <span className="text-sm text-gray-400 ml-2">{getLoadingEstimate()}</span>
                   )}
                 </div>
                 {showLoadingMessage && (
-                  <div className="mt-2 text-xs text-gray-400 font-medium">{getStepLabel()}</div>
+                  <div className="mt-2 text-xs text-gray-500 font-medium font-space">{getStepLabel()}</div>
                 )}
               </div>
             </div>
@@ -367,7 +352,7 @@ export default function Page() {
         </div>
 
         {/* Input Area */}
-        <div className="bg-white border-t border-gray-200 px-6 py-6 shadow-lg">
+        <div className="px-6 py-6" style={{borderTop: '1px solid rgba(255,255,255,0.08)', background: 'rgba(26,10,46,0.8)', backdropFilter: 'blur(12px)'}}>
           <div className="max-w-4xl mx-auto">
             <div className="flex gap-3">
               <input
@@ -378,22 +363,23 @@ export default function Page() {
                 onKeyPress={handleKeyPress}
                 placeholder="Describe the assessment you want to build..."
                 disabled={isLoading}
-                className="flex-1 px-5 py-3 rounded-lg border border-gray-300 focus:border-teal-700 focus:ring-2 focus:ring-teal-700 focus:ring-offset-0 transition-all disabled:bg-gray-100 disabled:text-gray-500"
+                className="flex-1 px-5 py-3 rounded-lg text-white placeholder-gray-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                style={{background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)'}}
               />
               <button
                 onClick={sendMessage}
                 disabled={isLoading || !input.trim()}
-                className="px-6 py-3 bg-teal-700 text-white rounded-lg font-semibold hover:bg-teal-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all flex items-center gap-2"
+                className="btn-primary px-6 py-3 disabled:opacity-30 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
               >
                 <span>Send</span>
                 <span>→</span>
               </button>
             </div>
-            <p className="text-xs text-gray-500 mt-3 ml-1">
-              Press Enter to send • Brought to you by <a href="https://promptletariat.com" className="text-teal-600 hover:text-teal-700 underline" target="_blank" rel="noopener noreferrer">Promptletariat.com</a>
+            <p className="text-xs text-gray-600 mt-3 ml-1 font-space">
+              Press Enter to send • Brought to you by <a href="https://promptletariat.com" className="text-hot-pink hover:text-cyan-accent underline transition-colors" target="_blank" rel="noopener noreferrer">Promptletariat.com</a>
             </p>
-            <p className="text-xs text-gray-400 mt-2 ml-1 leading-relaxed">
-              Scale Builder by <a href="https://promptletariat.com" className="underline hover:text-gray-600" target="_blank" rel="noopener noreferrer">Promptletariat.com</a> is for fun and AI demonstration purposes only, not licensed for commercial use and not to be used for psychological evaluation. Consult your medical doctor for any real medical evaluation and medical or psychological advice.
+            <p className="text-xs text-gray-700 mt-2 ml-1 leading-relaxed">
+              Scale Builder by <a href="https://promptletariat.com" className="underline hover:text-gray-500 transition-colors" target="_blank" rel="noopener noreferrer">Promptletariat.com</a> is for fun and AI demonstration purposes only, not licensed for commercial use and not to be used for psychological evaluation. Consult your medical doctor for any real medical evaluation and medical or psychological advice.
             </p>
           </div>
         </div>
@@ -402,13 +388,17 @@ export default function Page() {
       {/* Full-Screen Assessment Overlay */}
       {fullScreen && artifact && (
         <div className="fixed inset-0 bg-white z-50 flex flex-col">
-          {/* Full-screen Header */}
-          <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between bg-gradient-to-r from-teal-50 to-white shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900">Your Assessment <span className="text-sm font-normal text-gray-500">• Brought to you by <a href="https://promptletariat.com" className="text-teal-600 hover:text-teal-700 underline" target="_blank" rel="noopener noreferrer">Promptletariat.com</a></span></h2>
+          <div className="px-6 py-4 flex items-center justify-between shadow-sm" style={{borderBottom: '1px solid #e5e7eb', background: 'linear-gradient(90deg, #fdf2f4, #fff)'}}>
+            <h2 className="font-space text-lg font-bold text-gray-900">
+              Your Assessment{' '}
+              <span className="text-sm font-normal text-gray-500">
+                • Brought to you by <a href="https://promptletariat.com" className="text-hot-pink hover:text-cyan-accent underline transition-colors" target="_blank" rel="noopener noreferrer">Promptletariat.com</a>
+              </span>
+            </h2>
             <div className="flex gap-3 items-center">
               <button
                 onClick={downloadArtifact}
-                className="text-sm px-4 py-2 text-teal-700 border border-teal-700 rounded-lg hover:bg-teal-50 transition-all"
+                className="font-space text-sm px-4 py-2 text-hot-pink border border-hot-pink rounded-lg hover:bg-pink-50 transition-all"
               >
                 Save to Computer
               </button>
@@ -416,11 +406,10 @@ export default function Page() {
                 onClick={() => setFullScreen(false)}
                 className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
               >
-                ✕
+                {'\u2715'}
               </button>
             </div>
           </div>
-          {/* Full-screen iframe */}
           <div className="flex-1">
             <iframe
               srcDoc={artifact}

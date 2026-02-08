@@ -1,7 +1,9 @@
-import { Inter } from 'next/font/google';
+import { Inter, Syne, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const syne = Syne({ subsets: ['latin'], variable: '--font-syne' });
+const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space' });
 
 export const metadata = {
   title: 'Scale Builder by Promptletariat.com',
@@ -17,9 +19,9 @@ export default function RootLayout({ children }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#0D7377" />
+        <meta name="theme-color" content="#1a0a2e" />
       </head>
-      <body className={`${inter.className} bg-gray-50 text-gray-900`}>
+      <body className={`${inter.variable} ${syne.variable} ${spaceGrotesk.variable} font-sans bg-deep-purple text-white`}>
         {children}
       </body>
     </html>
