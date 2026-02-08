@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { systemPrompt } from '../../../lib/systemPrompt';
+import { systemPrompt, systemPromptBase } from '../../../lib/systemPrompt';
+import { scalesData, getScaleById } from '../../../lib/scalesData';
 
 // Simple in-memory rate limiter
 const rateLimit = new Map();
@@ -61,6 +62,25 @@ export async function POST(request) {
       );
     }
 
+    // Scan conversation for selected scales
+    const conversationText = messages.map(m => m.content).join(' ');
+    const selectedScales = scalesData.scales.filter(s => {
+      const nameMatch = conversationText.toLowerCase().includes(s.name.toLowerCase());
+      const shortMatch = conversationText.includes(s.shortName);
+      const idMatch = conversationText.includes(s.id);
+      return nameMatch || shortMatch || idMatch;
+    });
+
+    // Build dynamic system prompt
+    let dynamicPrompt = systemPrompt; // base + catalog
+
+    if (selectedScales.length > 0) {
+      // Only include the top 3 most relevant scales' full data
+      const topScales = selectedScales.slice(0, 3);
+      const scaleDetails = topScales.map(s => JSON.stringify(s, null, 2)).join('\n\n');
+      dynamicPrompt += '\n\n## Full Scale Data (for assessment generation)\nHere are the complete details for the selected scale(s), including all items, response format, and scoring methodology. Use this data to generate the assessment:\n\n' + scaleDetails;
+    }
+
     // Initialize Anthropic client
     const client = new Anthropic({
       apiKey: process.env.ANTHROPIC_API_KEY,
@@ -70,7 +90,7 @@ export async function POST(request) {
     const response = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 8192,
-      system: systemPrompt,
+      system: dynamicPrompt,
       messages: messages,
     });
 
