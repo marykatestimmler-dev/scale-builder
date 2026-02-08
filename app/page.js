@@ -222,7 +222,7 @@ export default function Page() {
               Turn social science into personalized learning tools with AI
             </p>
             <p className="text-sm sm:text-base mb-4 max-w-2xl mx-auto leading-relaxed text-gray-500">
-              This is for FUN and AI demonstration purposes only. Not at all serious. For real life issues, seek professional medical or psychological help.
+              This is for FUN and AI demonstration purposes only. Not at all serious. For medical or psychological advice, speak to your medical or psychological professionals.
             </p>
             <p className="text-sm sm:text-base mb-10 max-w-2xl mx-auto leading-relaxed text-gray-500">
               Created by <span className="text-white font-semibold">The Promptletariat, Mary Kate Stimmler</span>, for fun. To learn more about the evolution of this tool,{' '}
@@ -259,7 +259,7 @@ export default function Page() {
             <span className="text-gray-600">Stanford Fellow in Organizational Behavior</span>
           </p>
           <p className="text-xs text-gray-600 mt-4 max-w-2xl mx-auto leading-relaxed">
-            Scale Builder by <a href="https://promptletariat.com" className="text-gray-500 hover:text-gray-400 underline">Promptletariat.com</a> is for fun and AI demonstration purposes only, not licensed for commercial use and not to be used for psychological evaluation. Consult your medical doctor for any real medical evaluation and medical or psychological advice.
+            Scale Builder by <a href="https://promptletariat.com" className="text-gray-500 hover:text-gray-400 underline">Promptletariat.com</a> is for fun and AI demonstration purposes only, not licensed for commercial use and not to be used for psychological evaluation. For medical or psychological advice, speak to your medical or psychological professionals.
           </p>
         </div>
       </div>
@@ -382,7 +382,7 @@ export default function Page() {
               Press Enter to send • Brought to you by <a href="https://promptletariat.com" className="text-hot-pink hover:text-cyan-accent underline transition-colors" target="_blank" rel="noopener noreferrer">Promptletariat.com</a>
             </p>
             <p className="text-xs text-gray-700 mt-2 ml-1 leading-relaxed">
-              Scale Builder by <a href="https://promptletariat.com" className="underline hover:text-gray-500 transition-colors" target="_blank" rel="noopener noreferrer">Promptletariat.com</a> is for fun and AI demonstration purposes only, not licensed for commercial use and not to be used for psychological evaluation. Consult your medical doctor for any real medical evaluation and medical or psychological advice.
+              Scale Builder by <a href="https://promptletariat.com" className="underline hover:text-gray-500 transition-colors" target="_blank" rel="noopener noreferrer">Promptletariat.com</a> is for fun and AI demonstration purposes only, not licensed for commercial use and not to be used for psychological evaluation. For medical or psychological advice, speak to your medical or psychological professionals.
             </p>
           </div>
         </div>
