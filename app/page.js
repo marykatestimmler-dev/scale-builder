@@ -37,9 +37,9 @@ export default function Page() {
 
   // Estimate which step we're on and how long it takes
   const getLoadingEstimate = () => {
-    if (messageCount <= 1) return 'Finding the best scales for you... ~15 seconds';
-    if (messageCount <= 3) return 'Noting your preferences... ~10 seconds';
-    return 'Building your custom assessment... this is the big one! ~60–90 seconds';
+    if (messageCount <= 1) return 'Finding the best scales for you... usually ~10 seconds, but can take longer depending on your request';
+    if (messageCount <= 3) return 'Noting your preferences... usually ~10 seconds, but can take longer depending on your request';
+    return 'Building your custom assessment... this is the big one! Usually ~30–60 seconds, but can take longer depending on your style preferences';
   };
 
   const getStepLabel = () => {
