@@ -273,6 +273,9 @@ export default function Page() {
             </span>{' '}
             | <a href="https://promptletariat.com" className="text-teal-400 hover:text-teal-300">Promptletariat.com</a>
           </p>
+          <p className="text-xs text-gray-500 mt-4 max-w-2xl mx-auto leading-relaxed">
+            Scale Builder by <a href="https://promptletariat.com" className="text-gray-400 hover:text-gray-300 underline">Promptletariat.com</a> is for fun and AI demonstration purposes only, not licensed for commercial use and not to be used for psychological evaluation. Consult your medical doctor for any real medical evaluation and medical or psychological advice.
+          </p>
         </div>
       </div>
     );
@@ -388,6 +391,9 @@ export default function Page() {
             </div>
             <p className="text-xs text-gray-500 mt-3 ml-1">
               Press Enter to send • Brought to you by <a href="https://promptletariat.com" className="text-teal-600 hover:text-teal-700 underline" target="_blank" rel="noopener noreferrer">Promptletariat.com</a>
+            </p>
+            <p className="text-xs text-gray-400 mt-2 ml-1 leading-relaxed">
+              Scale Builder by <a href="https://promptletariat.com" className="underline hover:text-gray-600" target="_blank" rel="noopener noreferrer">Promptletariat.com</a> is for fun and AI demonstration purposes only, not licensed for commercial use and not to be used for psychological evaluation. Consult your medical doctor for any real medical evaluation and medical or psychological advice.
             </p>
           </div>
         </div>
