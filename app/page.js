@@ -54,7 +54,7 @@ export default function Page() {
       const initialMessage = {
         role: 'assistant',
         content:
-          "Hi! I'm Scale Builder by Promptletariat — I help you discover validated psychology scales and turn them into beautiful, interactive assessment apps.\n\nThis takes about 5 minutes. I'll ask you 4–5 quick questions about the topic you'd like to assess, what you'd like to name your app, and your visual style preferences. Then I'll build your custom assessment.\n\nWhat kind of assessment are you thinking about?",
+          "Hi! I'm Scale Builder by Promptletariat.com — I help you discover validated psychology scales and turn them into beautiful, interactive assessment apps.\n\nThis takes about 5 minutes. I'll ask you 4–5 quick questions about the topic you'd like to assess, what you'd like to name your app, and your visual style preferences. Then I'll build your custom assessment.\n\nWhat kind of assessment are you thinking about?",
       };
       setMessages([initialMessage]);
       setFirstMessageSent(true);
@@ -159,7 +159,7 @@ export default function Page() {
       {
         role: 'assistant',
         content:
-          "Hi! I'm Scale Builder by Promptletariat — I help you discover validated psychology scales and turn them into beautiful, interactive assessment apps.\n\nThis takes about 5 minutes. I'll ask you 4–5 quick questions about the topic you'd like to assess, what you'd like to name your app, and your visual style preferences. Then I'll build your custom assessment.\n\nWhat kind of assessment are you thinking about?",
+          "Hi! I'm Scale Builder by Promptletariat.com — I help you discover validated psychology scales and turn them into beautiful, interactive assessment apps.\n\nThis takes about 5 minutes. I'll ask you 4–5 quick questions about the topic you'd like to assess, what you'd like to name your app, and your visual style preferences. Then I'll build your custom assessment.\n\nWhat kind of assessment are you thinking about?",
       },
     ]);
     setArtifact(null);
@@ -201,7 +201,7 @@ export default function Page() {
               Scale Builder
             </h1>
             <p className="text-xl sm:text-2xl mb-6 font-medium opacity-95">
-              by Promptletariat
+              by <a href="https://promptletariat.com" className="underline hover:opacity-80">Promptletariat.com</a>
             </p>
             <p className="text-lg sm:text-xl mb-8 max-w-2xl mx-auto opacity-90">
               Build validated psychology assessments with AI
@@ -266,12 +266,12 @@ export default function Page() {
         <div className="bg-gray-900 text-gray-300 py-8 px-6 text-center">
           <p className="text-sm">
             Brought to you by{' '}
-            <a href="https://promptletariat.com" className="text-teal-400 hover:text-teal-300 font-semibold">the Promptletariat.com</a>
+            <a href="https://promptletariat.com" className="text-teal-400 hover:text-teal-300 font-semibold">Promptletariat.com</a>
             {' '}| Created by <span className="font-semibold text-white">MK</span> |{' '}
             <span className="text-gray-400">
               Stanford Fellow in Organizational Behavior
             </span>{' '}
-            | <a href="https://promptletariat.com" className="text-teal-400 hover:text-teal-300">promptletariat.com</a>
+            | <a href="https://promptletariat.com" className="text-teal-400 hover:text-teal-300">Promptletariat.com</a>
           </p>
         </div>
       </div>
@@ -288,7 +288,7 @@ export default function Page() {
           <div className="max-w-4xl mx-auto">
             <h1 className="text-2xl font-bold text-gray-900">Scale Builder</h1>
             <p className="text-sm text-gray-600 mt-1">
-              by Promptletariat — Build validated psychology assessments with AI
+              by <a href="https://promptletariat.com" className="text-teal-600 hover:text-teal-700">Promptletariat.com</a> — Build validated psychology assessments with AI
             </p>
           </div>
         </div>
@@ -387,7 +387,7 @@ export default function Page() {
               </button>
             </div>
             <p className="text-xs text-gray-500 mt-3 ml-1">
-              Press Enter to send • Brought to you by the Promptletariat.com
+              Press Enter to send • Brought to you by <a href="https://promptletariat.com" className="text-teal-600 hover:text-teal-700 underline" target="_blank" rel="noopener noreferrer">Promptletariat.com</a>
             </p>
           </div>
         </div>
@@ -398,7 +398,7 @@ export default function Page() {
         <div className="fixed inset-0 bg-white z-50 flex flex-col">
           {/* Full-screen Header */}
           <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between bg-gradient-to-r from-teal-50 to-white shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900">Your Assessment <span className="text-sm font-normal text-gray-500">• Brought to you by the Promptletariat.com</span></h2>
+            <h2 className="text-lg font-bold text-gray-900">Your Assessment <span className="text-sm font-normal text-gray-500">• Brought to you by <a href="https://promptletariat.com" className="text-teal-600 hover:text-teal-700 underline" target="_blank" rel="noopener noreferrer">Promptletariat.com</a></span></h2>
             <div className="flex gap-3 items-center">
               <button
                 onClick={downloadArtifact}

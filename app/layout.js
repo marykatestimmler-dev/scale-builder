@@ -4,7 +4,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Scale Builder by Promptletariat',
+  title: 'Scale Builder by Promptletariat.com',
   description: 'Build validated psychology assessments with AI',
   icons: {
     icon: '/favicon.ico',
