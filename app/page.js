@@ -9,6 +9,7 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [artifact, setArtifact] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
+  const [fullScreen, setFullScreen] = useState(false);
   const [firstMessageSent, setFirstMessageSent] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -67,13 +68,18 @@ export default function Page() {
 
       if (data.content) {
         const assistantContent = data.content;
+
+        // Check for HTML artifact and extract it
+        const htmlMatch = assistantContent.match(/```html\n([\s\S]*?)```/);
+
+        // Strip code blocks from the displayed message so users never see raw code
+        const cleanContent = assistantContent.replace(/```html\n[\s\S]*?```/g, '').trim();
+
         setMessages((prev) => [
           ...prev,
-          { role: 'assistant', content: assistantContent },
+          { role: 'assistant', content: cleanContent || 'Your assessment is ready! Try it out below.' },
         ]);
 
-        // Check for HTML artifact
-        const htmlMatch = assistantContent.match(/```html\n([\s\S]*?)```/);
         if (htmlMatch) {
           setArtifact(htmlMatch[1]);
           setShowPreview(true);
@@ -181,7 +187,7 @@ export default function Page() {
                 },
                 {
                   title: 'Get Your App',
-                  desc: 'Downloadable assessment tool',
+                  desc: 'Interactive assessment tool',
                   icon: '📱',
                 },
               ].map((feature, idx) => (
@@ -263,6 +269,29 @@ export default function Page() {
             </div>
           ))}
 
+          {showPreview && artifact && (
+            <div className="mb-6 flex justify-start">
+              <div className="bg-gradient-to-r from-teal-600 to-teal-700 rounded-2xl p-6 max-w-sm shadow-lg text-white">
+                <p className="text-lg font-bold mb-1">Your assessment is ready!</p>
+                <p className="text-sm opacity-90 mb-4">Try it out, then save it to share with others.</p>
+                <div className="flex flex-col gap-2">
+                  <button
+                    onClick={() => setFullScreen(true)}
+                    className="w-full px-4 py-3 bg-white text-teal-700 rounded-lg font-semibold hover:bg-gray-50 transition-all"
+                  >
+                    Try Your Assessment →
+                  </button>
+                  <button
+                    onClick={startNewAssessment}
+                    className="w-full px-4 py-2 text-sm text-teal-100 hover:text-white transition-all"
+                  >
+                    Build a different one
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           {isLoading && (
             <div className="mb-6 flex justify-start">
               <div className="assistant-message">
@@ -312,96 +341,34 @@ export default function Page() {
         </div>
       </div>
 
-      {/* Preview Panel */}
-      {showPreview && artifact && (
-        <div className="hidden lg:flex w-1/2 flex-col bg-white border-l border-gray-200 shadow-2xl slide-in">
-          {/* Preview Header */}
-          <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between bg-gradient-to-r from-teal-50 to-transparent">
-            <h2 className="text-xl font-bold text-gray-900">
-              Preview Your Assessment
-            </h2>
-            <button
-              onClick={() => setShowPreview(false)}
-              className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
-            >
-              ✕
-            </button>
-          </div>
-
-          {/* Preview Content */}
-          <div className="flex-1 overflow-auto bg-gray-50 p-6">
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden h-full">
-              <iframe
-                srcDoc={artifact}
-                className="w-full h-full border-none"
-                title="Assessment Preview"
-              />
-            </div>
-          </div>
-
-          {/* Preview Actions */}
-          <div className="border-t border-gray-200 px-6 py-4 bg-white flex gap-3">
-            <button
-              onClick={downloadArtifact}
-              className="flex-1 px-4 py-3 bg-teal-700 text-white rounded-lg font-semibold hover:bg-teal-800 transition-all flex items-center justify-center gap-2"
-            >
-              <span>⬇</span>
-              <span>Download HTML</span>
-            </button>
-            <button
-              onClick={startNewAssessment}
-              className="flex-1 px-4 py-3 border border-teal-700 text-teal-700 rounded-lg font-semibold hover:bg-teal-50 transition-all"
-            >
-              New Assessment
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Mobile Preview Modal */}
-      {showPreview && artifact && (
-        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end">
-          <div className="w-full bg-white rounded-t-3xl max-h-[90vh] flex flex-col slide-in">
-            {/* Mobile Preview Header */}
-            <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between bg-gradient-to-r from-teal-50 to-transparent">
-              <h2 className="text-lg font-bold text-gray-900">
-                Preview Your Assessment
-              </h2>
+      {/* Full-Screen Assessment Overlay */}
+      {fullScreen && artifact && (
+        <div className="fixed inset-0 bg-white z-50 flex flex-col">
+          {/* Full-screen Header */}
+          <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between bg-gradient-to-r from-teal-50 to-white shadow-sm">
+            <h2 className="text-lg font-bold text-gray-900">Your Assessment</h2>
+            <div className="flex gap-3 items-center">
               <button
-                onClick={() => setShowPreview(false)}
+                onClick={downloadArtifact}
+                className="text-sm px-4 py-2 text-teal-700 border border-teal-700 rounded-lg hover:bg-teal-50 transition-all"
+              >
+                Save to Computer
+              </button>
+              <button
+                onClick={() => setFullScreen(false)}
                 className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
               >
                 ✕
               </button>
             </div>
-
-            {/* Mobile Preview Content */}
-            <div className="flex-1 overflow-auto bg-gray-50 p-4">
-              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden h-full">
-                <iframe
-                  srcDoc={artifact}
-                  className="w-full h-full border-none"
-                  title="Assessment Preview"
-                />
-              </div>
-            </div>
-
-            {/* Mobile Preview Actions */}
-            <div className="border-t border-gray-200 px-4 py-4 bg-white flex gap-3">
-              <button
-                onClick={downloadArtifact}
-                className="flex-1 px-4 py-3 bg-teal-700 text-white rounded-lg font-semibold hover:bg-teal-800 transition-all flex items-center justify-center gap-2"
-              >
-                <span>⬇</span>
-                <span>Download</span>
-              </button>
-              <button
-                onClick={startNewAssessment}
-                className="flex-1 px-4 py-3 border border-teal-700 text-teal-700 rounded-lg font-semibold hover:bg-teal-50 transition-all"
-              >
-                New
-              </button>
-            </div>
+          </div>
+          {/* Full-screen iframe */}
+          <div className="flex-1">
+            <iframe
+              srcDoc={artifact}
+              className="w-full h-full border-none"
+              title="Your Assessment"
+            />
           </div>
         </div>
       )}
