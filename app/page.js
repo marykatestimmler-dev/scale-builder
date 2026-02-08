@@ -90,27 +90,52 @@ export default function Page() {
       });
 
       if (!res.ok) {
+        // Non-streaming error responses come back as JSON
         const errData = await res.json().catch(() => ({}));
         throw new Error(errData.error || 'API response was not ok (status ' + res.status + ')');
       }
 
-      const data = await res.json();
+      // Read the streamed response
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let fullText = '';
 
-      if (data.content) {
-        const assistantContent = data.content;
-        const htmlMatch = assistantContent.match(/```html\n([\s\S]*?)```/);
-        const cleanContent = assistantContent.replace(/```html\n[\s\S]*?```/g, '').trim();
+      // Add a placeholder assistant message that we'll update as chunks arrive
+      setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
+      setIsLoading(false); // Hide loading dots since text is now streaming in
 
-        setMessages((prev) => [
-          ...prev,
-          { role: 'assistant', content: cleanContent || 'Your assessment is ready! Try it out below.' },
-        ]);
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        fullText += chunk;
 
-        if (htmlMatch) {
-          setArtifact(htmlMatch[1]);
-          setShowPreview(true);
-        }
+        // Update the last message in-place with accumulated text (strip HTML for display)
+        const displayText = fullText.replace(/```html\n[\s\S]*?```/g, '').trim();
+        setMessages((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = { role: 'assistant', content: displayText || 'Building...' };
+          return updated;
+        });
       }
+
+      // Stream complete — check for HTML artifact in the full response
+      const htmlMatch = fullText.match(/```html\n([\s\S]*?)```/);
+      const cleanContent = fullText.replace(/```html\n[\s\S]*?```/g, '').trim();
+
+      // Final update with clean content
+      setMessages((prev) => {
+        const updated = [...prev];
+        updated[updated.length - 1] = { role: 'assistant', content: cleanContent || 'Your assessment is ready! Try it out below.' };
+        return updated;
+      });
+
+      if (htmlMatch) {
+        setArtifact(htmlMatch[1]);
+        setShowPreview(true);
+      }
+
+      return; // Skip the setIsLoading(false) at the bottom since we already did it
     } catch (error) {
       console.error('Error:', error);
       let errorMsg = 'Sorry, something went wrong. Please try again.';

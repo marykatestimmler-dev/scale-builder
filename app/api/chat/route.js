@@ -2,13 +2,13 @@ import Anthropic from '@anthropic-ai/sdk';
 import { systemPrompt, systemPromptBase } from '../../../lib/systemPrompt';
 import { scalesData, getScaleById } from '../../../lib/scalesData';
 
-// Allow longer execution on Vercel (up to 60s)
+// Allow longer execution on Vercel Pro (ignored on free plan, but streaming fixes timeout anyway)
 export const maxDuration = 60;
 
 // Simple in-memory rate limiter
 const rateLimit = new Map();
-const RATE_LIMIT = 20; // requests per hour
-const RATE_WINDOW = 60 * 60 * 1000; // 1 hour in ms
+const RATE_LIMIT = 20;
+const RATE_WINDOW = 60 * 60 * 1000;
 
 function getClientIp(request) {
   const forwarded = request.headers.get('x-forwarded-for');
@@ -33,7 +33,6 @@ function checkRateLimit(ip) {
 
 export async function POST(request) {
   try {
-    // Check rate limit
     const clientIp = getClientIp(request);
     if (!checkRateLimit(clientIp)) {
       return Response.json(
@@ -42,7 +41,6 @@ export async function POST(request) {
       );
     }
 
-    // Parse request body
     const body = await request.json();
     const { messages } = body;
 
@@ -53,12 +51,11 @@ export async function POST(request) {
       );
     }
 
-    // Scan conversation for scale IDs mentioned (e.g., [id:uwes-9])
+    // Scan conversation for scale IDs mentioned
     const conversationText = messages.map(m => m.content).join(' ');
     const idMatches = conversationText.match(/\[id:([^\]]+)\]/g) || [];
     const mentionedIds = idMatches.map(m => m.replace('[id:', '').replace(']', ''));
 
-    // Also do loose name matching for scales the user/assistant mentioned by name
     const selectedScales = scalesData.scales.filter(s => {
       if (mentionedIds.includes(s.id)) return true;
       const lowerText = conversationText.toLowerCase();
@@ -67,66 +64,62 @@ export async function POST(request) {
       return false;
     });
 
-    // Build dynamic system prompt: base + slim catalog always, full data only when scales detected
-    let dynamicPrompt = systemPrompt; // ~15KB total (base + slim catalog)
+    let dynamicPrompt = systemPrompt;
 
     if (selectedScales.length > 0) {
-      // Only include top 3 scales' full data to keep prompt manageable
       const topScales = selectedScales.slice(0, 3);
       const scaleDetails = topScales.map(s => JSON.stringify(s, null, 2)).join('\n\n');
       dynamicPrompt += '\n\n## Full Scale Data (for assessment generation)\nUse this data to generate the assessment. It contains all items, response format, and scoring:\n\n' + scaleDetails;
     }
 
-    // Initialize Anthropic client
     const client = new Anthropic({
       apiKey: process.env.ANTHROPIC_API_KEY,
     });
 
-    // Call Claude API
-    const response = await client.messages.create({
+    // Use streaming to avoid Vercel timeout on free plan
+    const stream = await client.messages.stream({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 8192,
       system: dynamicPrompt,
       messages: messages,
     });
 
-    // Extract and return the response
-    if (response.content && response.content.length > 0) {
-      return Response.json({
-        content: response.content[0].text,
-      });
-    } else {
-      return Response.json(
-        { error: 'No content in response' },
-        { status: 500 }
-      );
-    }
+    // Create a ReadableStream that sends text chunks as they arrive
+    const encoder = new TextEncoder();
+    const readable = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const event of stream) {
+            if (event.type === 'content_block_delta' && event.delta?.text) {
+              controller.enqueue(encoder.encode(event.delta.text));
+            }
+          }
+          controller.close();
+        } catch (err) {
+          controller.error(err);
+        }
+      },
+    });
+
+    return new Response(readable, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Transfer-Encoding': 'chunked',
+        'Cache-Control': 'no-cache',
+      },
+    });
   } catch (error) {
     console.error('API Error:', error?.message || error);
-    console.error('Error status:', error?.status);
-    console.error('Error type:', error?.type || error?.name);
 
-    // Return detailed error info so the frontend can display it
     const errorMessage = error?.message || 'Unknown error';
     const errorStatus = error?.status || 500;
 
     if (errorStatus === 401) {
-      return Response.json(
-        { error: 'Authentication failed. Check your API key.' },
-        { status: 401 }
-      );
+      return Response.json({ error: 'Authentication failed. Check your API key.' }, { status: 401 });
     }
-
     if (errorStatus === 429) {
-      return Response.json(
-        { error: 'Claude API rate limit exceeded. Please try again in a minute.' },
-        { status: 429 }
-      );
+      return Response.json({ error: 'Claude API rate limit exceeded. Please try again in a minute.' }, { status: 429 });
     }
-
-    return Response.json(
-      { error: 'API error: ' + errorMessage },
-      { status: 500 }
-    );
+    return Response.json({ error: 'API error: ' + errorMessage }, { status: 500 });
   }
 }
