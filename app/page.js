@@ -193,11 +193,15 @@ export default function Page() {
             <p className="font-syne text-xl sm:text-2xl mb-6 font-medium gradient-text-subtle">
               by <a href="https://promptletariat.com" className="underline hover:opacity-80">Promptletariat.com</a>
             </p>
-            <p className="font-space text-lg sm:text-xl mb-8 max-w-2xl mx-auto text-gray-400" style={{letterSpacing: '-0.3px'}}>
-              Build validated psychology assessments with AI
+            <p className="font-space text-lg sm:text-xl mb-6 max-w-2xl mx-auto text-gray-400" style={{letterSpacing: '-0.3px'}}>
+              Turn social science into personalized learning tools with AI
             </p>
-            <p className="text-base sm:text-lg mb-12 max-w-3xl mx-auto leading-relaxed text-gray-500">
-              Discover from 82 validated psychology scales and generate custom assessment tools tailored to your needs. Turn insights into interactive apps in minutes.
+            <p className="text-sm sm:text-base mb-4 max-w-2xl mx-auto leading-relaxed text-gray-500">
+              This is for FUN and AI demonstration purposes only. Not at all serious. For real life issues, seek professional medical or psychological help.
+            </p>
+            <p className="text-sm sm:text-base mb-10 max-w-2xl mx-auto leading-relaxed text-gray-500">
+              Created by <span className="text-white font-semibold">The Promptletariat, Mary Kate Stimmler</span>, for fun. To learn more about the evolution of this tool,{' '}
+              <a href="https://www.linkedin.com/in/marykatestimmler/" target="_blank" rel="noopener noreferrer" className="text-cyan-accent hover:text-hot-pink underline font-semibold transition-colors">follow me on LinkedIn</a>
             </p>
 
             {/* Badge */}
@@ -280,7 +284,7 @@ export default function Page() {
           <div className="max-w-4xl mx-auto">
             <h1 className="font-syne text-2xl font-bold gradient-text">Scale Builder</h1>
             <p className="font-space text-sm text-gray-500 mt-1">
-              by <a href="https://promptletariat.com" className="text-hot-pink hover:text-cyan-accent transition-colors">Promptletariat.com</a> — Build validated psychology assessments with AI
+              by <a href="https://promptletariat.com" className="text-hot-pink hover:text-cyan-accent transition-colors">Promptletariat.com</a> — Turn social science into personalized learning tools with AI
             </p>
           </div>
         </div>
