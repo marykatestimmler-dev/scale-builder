@@ -11,6 +11,9 @@ export default function Page() {
   const [showPreview, setShowPreview] = useState(false);
   const [fullScreen, setFullScreen] = useState(false);
   const [firstMessageSent, setFirstMessageSent] = useState(false);
+  const [messageCount, setMessageCount] = useState(0);
+  const [loadingStartTime, setLoadingStartTime] = useState(null);
+  const [showLoadingMessage, setShowLoadingMessage] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -19,13 +22,39 @@ export default function Page() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // Show loading message after 1 second delay
+  useEffect(() => {
+    let timer;
+    if (isLoading) {
+      setLoadingStartTime(Date.now());
+      timer = setTimeout(() => setShowLoadingMessage(true), 1000);
+    } else {
+      setShowLoadingMessage(false);
+      setLoadingStartTime(null);
+    }
+    return () => clearTimeout(timer);
+  }, [isLoading]);
+
+  // Estimate which step we're on and how long it takes
+  const getLoadingEstimate = () => {
+    if (messageCount <= 1) return 'Finding the best scales for you... ~15 seconds';
+    if (messageCount <= 3) return 'Noting your preferences... ~10 seconds';
+    return 'Building your custom assessment... this is the big one! ~60–90 seconds';
+  };
+
+  const getStepLabel = () => {
+    if (messageCount <= 1) return 'Step 1 of 3: Matching scales';
+    if (messageCount <= 3) return 'Step 2 of 3: Gathering preferences';
+    return 'Step 3 of 3: Building your assessment';
+  };
+
   // Add initial assistant message when entering chat
   useEffect(() => {
     if (screen === 'chat' && !firstMessageSent) {
       const initialMessage = {
         role: 'assistant',
         content:
-          "Hi! I'm Scale Builder by Promptletariat — I help people discover validated psychology scales and turn them into beautiful, interactive assessment apps. Whether you want to measure employee engagement, leadership style, burnout risk, personality traits, or something else entirely, I can help you build it. What kind of assessment are you thinking about?",
+          "Hi! I'm Scale Builder by Promptletariat — I help you discover validated psychology scales and turn them into beautiful, interactive assessment apps.\n\nThis takes about 5 minutes. I'll ask you 4–5 quick questions about the topic you'd like to assess, what you'd like to name your app, and your visual style preferences. Then I'll build your custom assessment.\n\nWhat kind of assessment are you thinking about?",
       };
       setMessages([initialMessage]);
       setFirstMessageSent(true);
@@ -47,6 +76,7 @@ export default function Page() {
     setMessages(updatedMessages);
     setInput('');
     setIsLoading(true);
+    setMessageCount((prev) => prev + 1);
 
     try {
       const res = await fetch('/api/chat', {
@@ -122,12 +152,13 @@ export default function Page() {
       {
         role: 'assistant',
         content:
-          "Hi! I'm Scale Builder by Promptletariat — I help people discover validated psychology scales and turn them into beautiful, interactive assessment apps. Whether you want to measure employee engagement, leadership style, burnout risk, personality traits, or something else entirely, I can help you build it. What kind of assessment are you thinking about?",
+          "Hi! I'm Scale Builder by Promptletariat — I help you discover validated psychology scales and turn them into beautiful, interactive assessment apps.\n\nThis takes about 5 minutes. I'll ask you 4–5 quick questions about the topic you'd like to assess, what you'd like to name your app, and your visual style preferences. Then I'll build your custom assessment.\n\nWhat kind of assessment are you thinking about?",
       },
     ]);
     setArtifact(null);
     setShowPreview(false);
     setInput('');
+    setMessageCount(0);
   };
 
   const renderMessageContent = (content) => {
@@ -172,8 +203,16 @@ export default function Page() {
               Discover from 24+ validated psychology scales and generate custom assessment tools tailored to your needs. Turn insights into interactive apps in minutes.
             </p>
 
+            {/* How It Works */}
+            <div className="bg-white bg-opacity-15 backdrop-blur-sm border border-white border-opacity-25 rounded-2xl p-8 max-w-2xl mx-auto mb-12 mt-10">
+              <p className="text-lg font-semibold mb-3">This takes about 5 minutes.</p>
+              <p className="text-base opacity-90 leading-relaxed">
+                Scale Builder will ask you 4–5 quick questions about the topic you'd like to assess, what you want to name your app, and your visual style preferences. Then it builds your custom assessment app.
+              </p>
+            </div>
+
             {/* Feature Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12 mt-12">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
               {[
                 {
                   title: 'Discover Scales',
@@ -295,15 +334,19 @@ export default function Page() {
           {isLoading && (
             <div className="mb-6 flex justify-start">
               <div className="assistant-message">
-                <div className="flex space-x-2">
-                  <span className="typing-indicator">●</span>
-                  <span className="typing-indicator" style={{ animationDelay: '0.2s' }}>
-                    ●
-                  </span>
-                  <span className="typing-indicator" style={{ animationDelay: '0.4s' }}>
-                    ●
-                  </span>
+                <div className="flex items-center space-x-3">
+                  <div className="flex space-x-1">
+                    <span className="typing-indicator">●</span>
+                    <span className="typing-indicator" style={{ animationDelay: '0.2s' }}>●</span>
+                    <span className="typing-indicator" style={{ animationDelay: '0.4s' }}>●</span>
+                  </div>
+                  {showLoadingMessage && (
+                    <span className="text-sm text-gray-500 ml-2">{getLoadingEstimate()}</span>
+                  )}
                 </div>
+                {showLoadingMessage && (
+                  <div className="mt-2 text-xs text-gray-400 font-medium">{getStepLabel()}</div>
+                )}
               </div>
             </div>
           )}
