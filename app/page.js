@@ -230,7 +230,7 @@ export default function Page() {
             </p>
 
             {/* Badge */}
-            <div className="badge-pill mb-8">85 Validated Scales</div>
+            <div className="badge-pill mb-8">84 Validated Scales</div>
             <p className="text-sm text-gray-400 mt-2 mb-8 italic">Can&apos;t find your favorite scale? This site aims to use only open source scales.</p>
 
             {/* How It Works */}
