@@ -215,9 +215,18 @@ export default function Page() {
             <h1 className="font-syne text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-2 tracking-tight gradient-text">
               Scale Builder
             </h1>
-            <p className="font-syne text-xl sm:text-2xl mb-6 font-medium gradient-text-subtle">
+            <p className="font-syne text-xl sm:text-2xl mb-8 font-medium gradient-text-subtle">
               by <a href="https://promptletariat.com" className="underline hover:opacity-80">Promptletariat.com</a>
             </p>
+
+            {/* CTA Button */}
+            <button
+              onClick={() => setScreen('chat')}
+              className="btn-primary text-xl sm:text-2xl px-12 py-5 shadow-lg hover:shadow-2xl font-syne tracking-tight mb-10"
+            >
+              Start Building →
+            </button>
+
             <p className="font-space text-lg sm:text-xl mb-6 max-w-2xl mx-auto text-gray-400" style={{letterSpacing: '-0.3px'}}>
               Turn social science into personalized learning tools with AI
             </p>
@@ -241,13 +250,6 @@ export default function Page() {
               </p>
             </div>
 
-            {/* CTA Button */}
-            <button
-              onClick={() => setScreen('chat')}
-              className="btn-primary text-xl sm:text-2xl px-12 py-5 shadow-lg hover:shadow-2xl font-syne tracking-tight"
-            >
-              Start Building →
-            </button>
           </div>
         </div>
 
