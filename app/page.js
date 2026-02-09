@@ -222,7 +222,7 @@ export default function Page() {
               Turn social science into personalized learning tools with AI
             </p>
             <p className="text-sm sm:text-base mb-4 max-w-2xl mx-auto leading-relaxed text-gray-500">
-              This is for FUN and AI demonstration purposes only. Not at all serious. For medical or psychological advice, speak to your medical or psychological professionals.
+              This is for FUN and AI demonstration purposes only. Not at all serious. For medical or psychological advice, speak to your medical or psychological professionals. Scales are made available for personal and academic research, but may require licensing for commercial use.
             </p>
             <p className="text-sm sm:text-base mb-10 max-w-2xl mx-auto leading-relaxed text-gray-500">
               Created by <span className="text-white font-semibold">The Promptletariat, Mary Kate Stimmler</span>, for fun. To learn more about the evolution of this tool,{' '}
@@ -231,7 +231,7 @@ export default function Page() {
 
             {/* Badge */}
             <div className="badge-pill mb-8">84 Validated Scales</div>
-            <p className="text-sm text-gray-400 mt-2 mb-8 italic">Can&apos;t find your favorite scale? This site aims to use only open source scales.</p>
+            <p className="text-sm text-gray-400 mt-2 mb-8 italic">Can&apos;t find your favorite scale? This site aims to use only open source (for noncommercial use) scales.</p>
 
             {/* How It Works */}
             <div className="glass-card p-8 max-w-2xl mx-auto mb-12">
@@ -260,7 +260,7 @@ export default function Page() {
             <span className="text-gray-600">Stanford Fellow in Organizational Behavior</span>
           </p>
           <p className="text-xs text-gray-600 mt-4 max-w-2xl mx-auto leading-relaxed">
-            Scale Builder by <a href="https://promptletariat.com" className="text-gray-500 hover:text-gray-400 underline">Promptletariat.com</a> is for fun and AI demonstration purposes only, not licensed for commercial use and not to be used for psychological evaluation. For medical or psychological advice, speak to your medical or psychological professionals.
+            Scale Builder by <a href="https://promptletariat.com" className="text-gray-500 hover:text-gray-400 underline">Promptletariat.com</a> is for fun and AI demonstration purposes only, not licensed for commercial use and not to be used for psychological evaluation. For medical or psychological advice, speak to your medical or psychological professionals. Scales are made available for personal and academic research, but may require licensing for commercial use.
           </p>
         </div>
       </div>
@@ -383,7 +383,7 @@ export default function Page() {
               Press Enter to send • Brought to you by <a href="https://promptletariat.com" className="text-hot-pink hover:text-cyan-accent underline transition-colors" target="_blank" rel="noopener noreferrer">Promptletariat.com</a>
             </p>
             <p className="text-xs text-gray-700 mt-2 ml-1 leading-relaxed">
-              Scale Builder by <a href="https://promptletariat.com" className="underline hover:text-gray-500 transition-colors" target="_blank" rel="noopener noreferrer">Promptletariat.com</a> is for fun and AI demonstration purposes only, not licensed for commercial use and not to be used for psychological evaluation. For medical or psychological advice, speak to your medical or psychological professionals.
+              Scale Builder by <a href="https://promptletariat.com" className="underline hover:text-gray-500 transition-colors" target="_blank" rel="noopener noreferrer">Promptletariat.com</a> is for fun and AI demonstration purposes only, not licensed for commercial use and not to be used for psychological evaluation. For medical or psychological advice, speak to your medical or psychological professionals. Scales are made available for personal and academic research, but may require licensing for commercial use.
             </p>
           </div>
         </div>
