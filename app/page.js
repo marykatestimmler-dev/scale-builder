@@ -222,10 +222,18 @@ export default function Page() {
             {/* CTA Button */}
             <button
               onClick={() => setScreen('chat')}
-              className="btn-primary text-xl sm:text-2xl px-12 py-5 shadow-lg hover:shadow-2xl font-syne tracking-tight mb-10"
+              className="btn-primary text-xl sm:text-2xl px-12 py-5 shadow-lg hover:shadow-2xl font-syne tracking-tight mb-6"
             >
               Start Building →
             </button>
+
+            {/* How It Works */}
+            <div className="glass-card p-8 max-w-2xl mx-auto mb-10">
+              <p className="font-space text-lg font-semibold mb-3 text-white">This takes between 30 seconds and 2 minutes.</p>
+              <p className="text-base text-gray-400 leading-relaxed">
+                Scale Builder will ask you 4–5 quick questions about the topic you'd like to assess, what you want to name your app, and your visual style preferences. Then it builds your custom assessment app.
+              </p>
+            </div>
 
             <p className="font-space text-lg sm:text-xl mb-6 max-w-2xl mx-auto text-gray-400" style={{letterSpacing: '-0.3px'}}>
               Turn social science into personalized learning tools with AI
@@ -241,14 +249,6 @@ export default function Page() {
             {/* Badge */}
             <div className="badge-pill mb-8">84 Validated Scales</div>
             <p className="text-sm text-gray-400 mt-2 mb-8 italic">Can&apos;t find your favorite scale? This site aims to use only open source (for noncommercial use) scales.</p>
-
-            {/* How It Works */}
-            <div className="glass-card p-8 max-w-2xl mx-auto mb-12">
-              <p className="font-space text-lg font-semibold mb-3 text-white">This takes between 30 seconds and 2 minutes.</p>
-              <p className="text-base text-gray-400 leading-relaxed">
-                Scale Builder will ask you 4–5 quick questions about the topic you'd like to assess, what you want to name your app, and your visual style preferences. Then it builds your custom assessment app.
-              </p>
-            </div>
 
           </div>
         </div>
